@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'myLabel' }
+    agent any
     environment {
         GIT_TAG = sh(returnStdout: true, script: 'git describe --always').trim()
     }
