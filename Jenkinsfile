@@ -1,12 +1,9 @@
 pipeline {
-    agent any
-    environment {
-        GIT_TAG = sh(returnStdout: true, script: 'git describe --always').trim()
-    }
+
     stages {
         stage("Checkout") {
             steps {
-                checkout scm
+                sh('make test')
             }
         }
         stage("Test") {
@@ -16,7 +13,7 @@ pipeline {
         }
 	stage("Deploy to Staging") {
 	    when {
-		buildingTag()
+		sh('make test')
 	    }
 	    environment {
 		ENVIRONMENT = 'staging'
@@ -32,7 +29,7 @@ pipeline {
         }
 	stage("Deploy to Production") {
 	    when {
-	        buildingTag()
+	        sh('make test')
             }
             environment {
 	        ENVIRONMENT = 'production'
