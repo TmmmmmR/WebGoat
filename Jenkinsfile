@@ -26,13 +26,14 @@ node {
    
    stage("Results"){
    }
-}
+   
+   
+   //Get approval from user before deployment
+    input 'Ready to Deploy??'
 
-//Get approval from user before deployment
-input 'Ready to Deploy??'
-
-node{
     stage("Deploy"){
     //Deploy Code here
     }
 }
+
+
