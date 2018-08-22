@@ -1,41 +1,30 @@
 pipeline {
-
+    agent any
     stages {
-        stage("Checkout") {
+        stage('Build') {
             steps {
-                sh('make test')
+                sh 'echo "TMR"'
             }
         }
-        stage("Test") {
+        stage('Test') {
             steps {
-                sh('make test')
-	    }
-        }
-	stage("Deploy to Staging") {
-	    when {
-		sh('make test')
-	    }
-	    environment {
-		ENVIRONMENT = 'staging'
-	    }
-	    steps {
-		sh('make deploy')
-	    }
-	}
-	stage("Smoketest") {
-	    steps {
-                sh('make smoketest')
-	    }
-        }
-	stage("Deploy to Production") {
-	    when {
-	        sh('make test')
+                sh 'echo "TMR"'
             }
-            environment {
-	        ENVIRONMENT = 'production'
+        }
+        stage('Deliver for development') {
+            when {
+                branch 'development' 
             }
             steps {
-	        sh('make deploy')
+                sh 'echo "TMR"'
+            }
+        }
+        stage('Deploy for production') {
+            when {
+                branch 'production'  
+            }
+            steps {
+                sh 'echo "TMR"'
             }
         }
     }
