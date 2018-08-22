@@ -1,4 +1,6 @@
-node {
+pipeline {
+   agent any
+   stages {
    stage('Check Out') {
       steps {
         sh 'echo "X Step"'
@@ -32,4 +34,5 @@ node {
         sh 'echo "X Step"'
       }
     }
+   }
 }
