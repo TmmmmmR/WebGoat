@@ -1,5 +1,5 @@
 node {
-      stage('Checkout') {
+   stage('Check Out') {
       steps {
         sh 'echo "X Step"'
       }
@@ -11,25 +11,10 @@ node {
       }
    }
    
-   stage('Run Tests') {
-            parallel {
-                stage('Test On Windows') {
-                    agent {
-                        label "windows"
-                    }
-                    steps {
-                        sh 'echo "X Step"'
-                    }
-                }
-                stage('Test On Linux') {
-                    agent {
-                        label "linux"
-                    }
-                    steps {
-                        sh 'echo "X Step"'
-                    }
-                }
-            }
+   stage('Tests') {
+      steps {
+        sh 'echo "X Step"'
+      }
    }
 
    stage("Results"){
