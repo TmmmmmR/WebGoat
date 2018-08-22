@@ -1,32 +1,41 @@
-/*
-** Demo DevSecOps **
-*/
-
 node {
       stage('Checkout') {
-      sh 'echo "Step x"'
+      steps {
+        sh 'echo "X Step"'
+      }
    }
    
    stage('Build') {
-      sh 'echo "Step x"'
+      steps {
+        sh 'echo "X Step"'
+      }
    }
    
-  stage('Tests') {
-      steps {
-        parallel(
-          "Unit Tests": {
-            sh 'echo "Unit Tests"'
-            
-          },
-          "Feature tests": {
-            sh 'echo "Feature Tests"'
-          }
-        )
-      }
-  }
+   stage('Run Tests') {
+            parallel {
+                stage('Test On Windows') {
+                    agent {
+                        label "windows"
+                    }
+                    steps {
+                        sh 'echo "X Step"'
+                    }
+                }
+                stage('Test On Linux') {
+                    agent {
+                        label "linux"
+                    }
+                    steps {
+                        sh 'echo "X Step"'
+                    }
+                }
+            }
+   }
 
    stage("Results"){
-      sh 'echo "Step x"'
+      steps {
+        sh 'echo "X Step"'
+      }
    }
    
    
@@ -34,8 +43,8 @@ node {
     input 'Ready to Deploy??'
 
     stage("Deploy"){
-      sh 'echo "Step x"'
+      steps {
+        sh 'echo "X Step"'
+      }
     }
 }
-
-
