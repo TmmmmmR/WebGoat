@@ -32,25 +32,22 @@ pipeline {
 
         stage('Code Analysis') {
             steps {
-            {
-                    script
                     {
-                        if(BRANCH_NAME == 'master')
-                        {
-                            sh 'echo "Code Analysis for master branch"'
-                        }
-                        else {
-                            if(BRANCH_NAME.startsWith("PR-"))
+                            script
                             {
-                                sh 'echo "Code Analysis for master branch"'
+                                    if(BRANCH_NAME == 'master'){
+                                            sh 'echo "Code Analysis for master branch"'
+                                    }
+                                    else {
+                                            if(BRANCH_NAME.startsWith("PR-")){
+                                                    sh 'echo "Code Analysis for master branch"'
+                                            }
+                                            else {
+                                                    echo "This step is skipped for branches other than master or PR-*"
+                                            }
+                                    }
                             }
-                            else
-                            {
-                                echo "This step is skipped for branches other than master or PR-*"
-                            }
-                        }
                     }
-                }
             }
         }
         stage('Deploy') {
@@ -62,7 +59,7 @@ pipeline {
             }
         }
     }
-    post {
+        post {
         success {
             script {
                 if(BRANCH_NAME == 'master' && params.TRIGGER_OS_BUILD) {
