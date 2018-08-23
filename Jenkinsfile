@@ -13,45 +13,46 @@ pipeline {
             }
         }
 
-        stage('Code Analysis') {
+        stage('Deliver to developement') {
             when {
-                branch 'master' 
+                branch 'develop' 
             }
             steps {
-                echo 'I only execute on the master branch' 
+                echo 'I only execute on the dev branch' 
             }
         }
             
         stage('Deploy') {
             when {
-                expression { BRANCH_NAME == 'master' && (currentBuild.result == null || currentBuild.result == 'SUCCESS') }
+                expression { BRANCH_NAME == 'production' && (currentBuild.result == null || currentBuild.result == 'SUCCESS') }
             }
             steps {
-                sh 'echo "Deploy to production"'
+                // Add confirmation message before deploying
+                sh 'echo "[+] Deploy to production"'
             }
         }
     }
         post {
         success {
-            sh 'echo "Debug message ..."'
+            sh 'echo "[-] Success ebug message ..."'
         }
         failure {
-            sh 'echo "Debug message ..."'
+            sh 'echo "[-] Failure message ..."'
         }
         unstable {
-            sh 'echo "Debug message ..."'
+            sh 'echo "[-] Unstable message ..."'
         }
         fixed {
-            sh 'echo "Debug message ..."'
+            sh 'echo "[-] Fixed message goes here ..."'
         }
         always {
-            // (fallback) record test results even if withMaven should have done that already.
+            sh 'echo "[-] Record test results (fallback) ..."'
+            //  ....
             //junit '**/target/*-reports/*.xml'
-            sh 'echo "Debug message ..."'
         }
         cleanup {
             script {
-                sh 'echo "Debug message ..."'
+                sh 'echo "[+] Cleanning up ..."'
             }
         }
     }
