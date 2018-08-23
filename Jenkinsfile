@@ -6,28 +6,31 @@ pipeline {
                 sh 'echo "TMR"'
             }
         }
-        stage('Test') {
+        
+        stage('Unit Test) {
             steps {
-                parallel(
-                    "Unit Tests": {
-                        sh 'echo "Unit Tests"'
-                    },
-                    "Feature tests": {
-                        sh 'echo "Feature Tests"'
-                    }
-                )
+                sh 'echo "Running Unit Tests"'
             }
         }
+              
         stage('Deliver for development') {
             when {
                 branch 'development' 
             }
             steps {
-                input message: 'Deploy to Dev Environnement ? (Click "Proceed" to continue)'
-                sh 'echo "Deploy to Dev Env."'
-                sh 'echo "Running Automated Infra. Security Scans"'
+                sh 'echo "Deploy to Prod. Env."' 
             }
         }
+              
+        stage('Functionel Testing on Development Env.') {
+            when {
+                branch 'development' 
+            }
+            steps {
+                sh 'echo "Deploy to Prod. Env."' 
+            }
+        }
+              
         stage('Deploy for production') {
             when {
                 branch 'production'  
