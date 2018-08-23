@@ -8,7 +8,14 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'echo "TMR"'
+                parallel(
+                    "Unit Tests": {
+                        sh 'echo "Unit Tests"'
+                    },
+                    "Feature tests": {
+                        sh 'echo "Feature Tests"'
+                    }
+                )
             }
         }
         stage('Deliver for development') {
@@ -16,8 +23,9 @@ pipeline {
                 branch 'development' 
             }
             steps {
-                sh 'echo "TMR"'
                 input message: 'Deploy to Dev Environnement ? (Click "Proceed" to continue)'
+                sh 'echo "Deploy to Dev Env."'
+                sh 'echo "Running Automated Infra. Security Scans"'
             }
         }
         stage('Deploy for production') {
@@ -25,7 +33,8 @@ pipeline {
                 branch 'production'  
             }
             steps {
-                input message: 'Deploy to Dev Environnement ? (Click "Proceed" to continue)'
+                sh 'echo "Deploy to Prod. Env."'
+                sh 'echo "Running Automated Infra. Security Scans"'
             }
         }
     }
