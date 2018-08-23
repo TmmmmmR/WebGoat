@@ -1,5 +1,3 @@
-@Library('jenkins-shared-libraries') _
-
 pipeline {
 /*    agent {
         node {
