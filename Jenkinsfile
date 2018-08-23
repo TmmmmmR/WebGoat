@@ -1,22 +1,7 @@
 pipeline {
-/*    agent {
-        node {
-            label 'alpine:jdk8-mvn-3.5'
-            customWorkspace workspace().getUniqueWorkspacePath()
-        }
-    }
-    parameters {
-        booleanParam(defaultValue: true, description: 'Send email notification?', name: 'NOTIFY_EMAIL')
-        booleanParam(defaultValue: true, description: 'Trigger strongbox-os-build?', name: 'TRIGGER_OS_BUILD')
-    }
-    options {
-        timeout(time: 2, unit: 'HOURS')
-        disableConcurrentBuilds()
-    }
-*/
-    stages {
-        stage('Build')
-        {
+        agent any
+        stages {
+        stage('Build') {
             steps {
                 sh 'echo "Building the application"'
             }
@@ -29,10 +14,14 @@ pipeline {
         }
 
         stage('Code Analysis') {
+                steps {
+
                 if (env.BRANCH_NAME == 'master') {
                         echo 'I only execute on the master branch'
                 } else {
                         echo 'I execute elsewhere'
+                }
+                   
                 }
         }
             
