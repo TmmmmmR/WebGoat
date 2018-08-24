@@ -1,12 +1,20 @@
 pipeline {
         agent any
         stages {
-        stage('Build') {
-            steps {
-                sh 'echo "Building the application"'
-            }
-        }
-
+                stage ('Build') {
+                        steps {
+                                sh '''
+                                echo "PATH = ${PATH}"
+                                echo "M2_HOME = ${M2_HOME}"
+                                mvn -B install
+                                ''' 
+                        }
+                        post {
+                                always {
+                                        junit '**/target/surefire-reports/**/*.xml' 
+                                } 
+                        }
+                }
         stage('Unit Test') {
             steps {
                 sh 'echo "Running Unit Tests"'
