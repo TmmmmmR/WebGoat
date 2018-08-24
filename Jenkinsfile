@@ -28,7 +28,7 @@ pipeline {
             }
         }
             
-        stage('Deploy') {
+        stage('Deploy to production') {
             when {
                 expression { BRANCH_NAME == 'production' && (currentBuild.result == null || currentBuild.result == 'SUCCESS') }
             }
@@ -40,16 +40,16 @@ pipeline {
     }
         post {
         success {
-            sh 'echo "[-] Success ebug message ..."'
+            //slackSend (color: '#00aa5b', message: "Build OK de la branche ${env.GIT_BRANCH}, commit: ${env.GIT_COMMIT}", channel: "#pic-ci")
         }
         failure {
-            sh 'echo "[-] Failure message ..."'
+            //slackSend (color: '#a30000', message: "Build KO de la branche ${env.GIT_BRANCH}, commit: ${env.GIT_COMMIT}", channel: "#pic-ci")
         }
         unstable {
-            sh 'echo "[-] Unstable message ..."'
+            //slackSend (color: '#ffaa00', message: "Build Unstable de la branche ${env.GIT_BRANCH}, commit: ${env.GIT_COMMIT}", channel: "#pic-ci")
         }
         fixed {
-            sh 'echo "[-] Fixed message goes here ..."'
+            sh 'echo "[-] Fixed debug message goes here ..."'
         }
         always {
             sh 'echo "[-] Record test results (fallback) ..."'
